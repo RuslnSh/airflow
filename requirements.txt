@@ -1,0 +1,4 @@
+apache-airflow=2.0.2
+apache-airflow-providers-postgres=1.0.1
+requests=2.25.1
+pandas=1.1.5
