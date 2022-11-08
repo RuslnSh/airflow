@@ -12,7 +12,7 @@ default_args = {
 with DAG(
         dag_id="01_print_context",
         description="Print dag's context",
-        start_date=days_ago(2),
+        start_date=days_ago(1),
         schedule_interval="@daily",
         # default_args=default_args,
         user_defined_macros=default_args,

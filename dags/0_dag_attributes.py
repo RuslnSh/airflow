@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.sensors.python import PythonSensor
 
 default_args = {
     "owner": "ShR",
@@ -30,7 +31,8 @@ dag = DAG(
     default_args=default_args,
     user_defined_macros=default_args,  # Each value in the dictionary is evaluated as a Jinja template
     max_active_runs=1,
-    catchup=False  # Allow to execute previous scheduled tasks
+    catchup=False,  # Allow to execute previous scheduled tasks
+    concurrency=10  # Allowing number if concurrently running DAGs
 )
 
 
@@ -39,4 +41,13 @@ task_1 = PythonOperator(
     python_callable=lambda x: x*x,
     params=1,
     dag=dag
+)
+
+task_2 = PythonSensor(
+    task_id="task_2",
+    python_callable=lambda filename: filename.is_exists(),
+    op_kwargs={"filename": "data.json"},
+    timeout=600,  #
+    mode="reschedule",  # With this mode sensor release slot after poking, allowing other tasks to run
+    dag=dag,
 )

@@ -12,10 +12,10 @@ default_args = {
 with DAG(
         dag_id="01_pass_params",
         description="Pass parameters to python callable",
-        start_date=days_ago(2),
+        start_date=days_ago(1),
         schedule_interval="@daily",
         # default_args=default_args,
-        user_defined_macros=default_args,
+        user_defined_macros=default_args,  # Allow using dictionary keys in jinja templates inside the dag
 ) as dag:
     def _print_kwargs_1(**kwargs):
         print("Inside the '_print_kwargs_1' function")
